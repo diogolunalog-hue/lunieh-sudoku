@@ -1,11 +1,114 @@
-body { font-family: 'Segoe UI', sans-serif; background: #0f0f1b; color: #fff; text-align: center; margin: 0; padding: 20px; }
-.container { max-width: 500px; margin: 0 auto; padding: 20px; background: #1a1a2e; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-h1 { font-size: 2.8em; margin: 0; color: #00d4ff; }
-.subtitle { color: #aaa; margin-bottom: 30px; }
-button { padding: 12px 30px; font-size: 1.1em; background: #00d4ff; color: #000; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
-button:hover { background: #00ffaa; }
-#sudoku-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 1px; margin: 30px auto; width: fit-content; border: 3px solid #00d4ff; background: #000; }
-.cell { width: 50px; height: 50px; background: #16213e; display: flex; align-items: center; justify-content: center; font-size: 1.5em; color: #fff; }
-.cell:nth-child(3n) { border-right: 3px solid #00d4ff; }
-.row:nth-child(3n) .cell { border-bottom: 3px solid #00d4ff; }
-.footer { margin-top: 40px; color: #666; font-size: 0.9em; }
+/* ESTILO 1 – CLÁSSICO COM QUADRADOS PERFEITOS */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 2.5em;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+button {
+  padding: 12px 32px;
+  font-size: 1.1em;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+button:hover { background: #0056b3; }
+
+/* GRID PERFEITO COM TABELA */
+#sudoku-grid {
+  display: table;
+  border-collapse: collapse;
+  margin: 25px auto;
+  border: 3px solid #000;
+  background: white;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1.8em;
+  font-weight: bold;
+  border: 1px solid #999;
+  position: relative;
+}
+
+/* Bordas grossas nos blocos 3×3 */
+.row:nth-child(3n) .cell { border-bottom: 3px solid #000; }
+.cell:nth-child(3n) { border-right: 3px solid #000; }
+
+/* Números fixos (dados pelo puzzle) */
+.cell.given {
+  color: #000;
+  background: #f0f0f0;
+}
+
+/* Células editáveis */
+.cell[contenteditable="true"] {
+  cursor: text;
+  color: #0066ff;
+}
+.cell[contenteditable="true"]:focus {
+  outline: 2px solid #007bff;
+  background: #f8fbff;
+}
+
+/* Erro e acerto */
+.cell[contenteditable="true"][style*="color: rgb(255"] { color: #ff4444 !important; }
+.cell[contenteditable="true"][style*="color: rgb(0, 255"] { color: #00aa00 !important; }
+
+/* Teclado numérico embaixo */
+#number-pad {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(9, 50px);
+  gap: 5px;
+  justify-content: center;
+}
+#number-pad button {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5em;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+#number-pad button:hover { background: #007bff; color: white; }
+
+.footer {
+  margin-top: 30px;
+  color: #888;
+  font-size: 0.9em;
