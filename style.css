@@ -1,122 +1,217 @@
-/* ESTILO 1 – CLÁSSICO COM QUADRADOS PERFEITOS */
+/* —————————— */
+/* ESTILO GLOBAL */
+/* —————————— */
+:root {
+  --bg: #fafafa;
+  --text: #222;
+  --primary: #2979ff;
+  --accent: #e3edff;
+  --error: #ff4444;
+  --success: #29c64b;
+  --given: #333;
+  --cell-bg: #fff;
+  --note: #4a6fdc;
+  --highlight: #d9e7ff;
+}
+
+/* Modo escuro */
+.dark {
+  --bg: #111;
+  --text: #eee;
+  --cell-bg: #222;
+  --accent: #1e293b;
+  --highlight: #334155;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: var(--bg);
+  color: var(--text);
   margin: 0;
-  padding: 20px;
+  font-family: "Inter", Arial, sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  text-align: center;
+/* —————————— */
+/* CABEÇALHO */
+/* —————————— */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 25px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+  background: var(--cell-bg);
 }
 
-h1 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 2.5em;
+.logo {
+  font-size: 1.9em;
+  font-weight: 900;
+}
+.logo span {
+  color: var(--primary);
 }
 
-.subtitle {
-  color: #666;
-  margin-bottom: 25px;
+.top-controls {
+  display: flex;
+  gap: 12px;
+}
+
+select, button {
+  padding: 10px 18px;
+  font-size: 1.05em;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 button {
-  padding: 12px 32px;
-  font-size: 1.1em;
-  background: #007bff;
+  background: var(--primary);
   color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 20px;
 }
-button:hover { background: #0056b3; }
+button:hover {
+  background: #0053d6;
+}
 
-/* GRID PERFEITO COM TABELA */
+#toggle-dark {
+  background: #444;
+}
+
+/* —————————— */
+/* LAYOUT PRINCIPAL */
+/* —————————— */
+.game-area {
+  display: flex;
+  justify-content: center;
+  padding: 35px;
+  gap: 45px;
+  flex: 1;
+}
+
+/* —————————— */
+/* TABULEIRO */
+/* —————————— */
 #sudoku-grid {
-  display: table;
-  border-collapse: collapse;
-  margin: 25px auto;
-  border: 3px solid #000;
-  background: white;
-}
-
-.row {
-  display: table-row;
+  display: grid;
+  grid-template-columns: repeat(9, 60px);
+  grid-template-rows: repeat(9, 60px);
+  background: black;
+  padding: 3px;
+  border-radius: 12px;
 }
 
 .cell {
-  display: table-cell;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  vertical-align: middle;
+  background: var(--cell-bg);
+  border: 1px solid #bcbcbc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.8em;
-  font-weight: bold;
-  border: 1px solid #999;
+  font-weight: 600;
+  cursor: pointer;
   position: relative;
+  transition: background .15s;
 }
 
-/* Bordas grossas nos blocos 3×3 */
-.row:nth-child(3n) .cell { border-bottom: 3px solid #000; }
-.cell:nth-child(3n) { border-right: 3px solid #000; }
-
-/* Números fixos (dados pelo puzzle) */
-.cell.given {
-  color: #000;
-  background: #f0f0f0;
+.given {
+  color: var(--given);
+  background: var(--accent);
+  cursor: default;
 }
 
-/* Células editáveis */
-.cell[contenteditable="true"] {
-  cursor: text;
-  color: #0066ff;
+/* Bordas mais grossas */
+.cell:nth-child(3n + 1) { border-left-width: 3px; }
+.cell:nth-child(9n + 1) { border-top-width: 3px; }
+.cell:nth-last-child(n+7):nth-child(9n + 1) { border-bottom-width: 3px; }
+
+/* Destaques */
+.cell.selected {
+  background: var(--highlight);
 }
-.cell[contenteditable="true"]:focus {
-  outline: 2px solid #007bff;
-  background: #f8fbff;
+.cell.same-number {
+  background: var(--accent);
+}
+.cell.related {
+  background: var(--highlight);
 }
 
-/* Erro e acerto */
-.cell[contenteditable="true"][style*="color: rgb(255"] { color: #ff4444 !important; }
-.cell[contenteditable="true"][style*="color: rgb(0, 255"] { color: #00aa00 !important; }
-
-/* Teclado numérico embaixo */
-#number-pad {
-  margin-top: 20px;
+/* Anotações */
+.notes {
+  font-size: .45em;
   display: grid;
-  grid-template-columns: repeat(9, 50px);
-  gap: 5px;
+  grid-template-columns: repeat(3,1fr);
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  color: var(--note);
+}
+
+/* —————————— */
+/* PAINEL LATERAL */
+/* —————————— */
+.side-tools {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.info-box {
+  background: var(--cell-bg);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tool-btn {
+  flex: 1;
+  background: var(--accent);
+  color: var(--text);
+}
+.tool-btn:hover {
+  background: var(--highlight);
+}
+
+/* Teclado numérico */
+.num-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 65px);
+  gap: 10px;
   justify-content: center;
 }
-#number-pad button {
-  width: 50px;
-  height: 50px;
-  font-size: 1.5em;
-  background: #eee;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.num-pad button {
+  background: var(--cell-bg);
+  color: var(--text);
+  border: 1px solid #aaa;
 }
-#number-pad button:hover { background: #007bff; color: white; }
 
-.footer {
-  margin-top: 30px;
-  color: #888;
-  font-size: 0.9em;
-
-  /* Responsividade mobile */
-@media (max-width: 500px) {
-  .cell { width: 35px; height: 35px; font-size: 1.4em; }
-  #number-pad button { width: 35px; height: 35px; font-size: 1.2em; }
-  #sudoku-grid { margin: 15px auto; }
-  .container { padding: 15px; }
+/* —————————— */
+/* MODAL */
+/* —————————— */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: var(--cell-bg);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
