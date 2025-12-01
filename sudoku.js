@@ -1,321 +1,409 @@
-/* ——————————————————————————————
+/* ============================================================
    VARIÁVEIS GLOBAIS
-—————————————————————————————— */
-let selected = null;
-let grid = [];
+============================================================ */
+let puzzle = [];
 let solution = [];
-let mistakes = 0;
+let selectedCell = null;
 let notesMode = false;
-let timer = 0;
+let mistakes = 0;
+let startTime = null;
 let timerInterval = null;
+let finished = false;
 
-/* ——————————————————————————————
-   INICIALIZAÇÃO
-—————————————————————————————— */
-document.getElementById("new-game").addEventListener("click", generateSudoku);
-document.getElementById("toggle-dark").addEventListener("click", () => {
-  document.body.classList.toggle("dark");
+/* ============================================================
+   FUNÇÃO PRINCIPAL - INICIALIZA
+============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("new-game").onclick = newGame;
+    document.getElementById("play-again").onclick = newGame;
+    document.getElementById("restart-modal").onclick = newGame;
+
+    document.getElementById("toggle-dark").onclick = toggleDark;
+
+    document.getElementById("notes-btn").onclick = toggleNotes;
+    document.getElementById("notes-btn-m").onclick = toggleNotes;
+
+    document.getElementById("erase-btn").onclick = eraseCell;
+    document.getElementById("erase-btn-m").onclick = eraseCell;
+
+    document.getElementById("check-btn").onclick = checkBoard;
+    document.getElementById("check-btn-m").onclick = checkBoard;
+
+    document.getElementById("hint-btn").onclick = giveHint;
+    document.getElementById("hint-btn-m").onclick = giveHint;
+
+    document.getElementById("continue-ad").onclick = rewardedContinue;
+
+    newGame();
 });
 
-document.getElementById("erase-btn").addEventListener("click", eraseCell);
-document.getElementById("notes-btn").addEventListener("click", toggleNotes);
-document.getElementById("hint-btn").addEventListener("click", giveHint);
-document.getElementById("check-btn").addEventListener("click", checkBoard);
-document.getElementById("continue-ad").addEventListener("click", continueAfterAd);
-document.getElementById("restart-modal").addEventListener("click", generateSudoku);
+/* ============================================================
+   NOVO JOGO
+============================================================ */
+function newGame() {
+    closeAllModals();
+    mistakes = 0;
+    finished = false;
+    updateMistakes();
 
-/* ——————————————————————————————
-   GERADOR DE SUDOKU
-—————————————————————————————— */
-function generateSudoku() {
-  mistakes = 0;
-  timer = 0;
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timer++;
-    updateInfo();
-  }, 1000);
+    // Reset timer
+    clearInterval(timerInterval);
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
 
-  grid = Array.from({length:9}, ()=>Array(9).fill(0));
-  solution = Array.from({length:9}, ()=>Array(9).fill(0));
+    const removeCount = parseInt(document.getElementById("difficulty").value);
 
-  fillGrid(solution);
-  grid = solution.map(r=>[...r]);
+    solution = generateFullGrid(); 
+    puzzle = JSON.parse(JSON.stringify(solution));
 
-  let holes = Number(document.getElementById("difficulty").value);
-  removeNumbers(grid, holes);
+    removeNumbers(puzzle, removeCount);
 
-  renderGrid();
-  renderPad();
-  updateInfo();
-
-  document.getElementById("error-modal").style.display = "none";
+    renderBoard();
+    renderNumberPads();
 }
 
-/* ——————————————————————————————
-   GERAÇÃO REAL DE UM SUDOKU
-—————————————————————————————— */
+/* ============================================================
+   GERAÇÃO DO SUDOKU (BACKTRACKING)
+============================================================ */
+function generateFullGrid() {
+    let grid = Array.from({ length: 9 }, () => Array(9).fill(0));
+    fillGrid(grid);
+    return grid;
+}
+
 function fillGrid(g) {
-  for (let r=0; r<9; r++) {
-    for (let c=0; c<9; c++) {
-      if (g[r][c] === 0) {
-        let nums = shuffle([1,2,3,4,5,6,7,8,9]);
-        for (let n of nums) {
-          if (isSafe(g, r, c, n)) {
-            g[r][c] = n;
-            if (fillGrid(g)) return true;
-            g[r][c] = 0;
-          }
+    for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+            if (g[r][c] === 0) {
+                let nums = shuffle([1,2,3,4,5,6,7,8,9]);
+                for (let n of nums) {
+                    if (isSafe(g, r, c, n)) {
+                        g[r][c] = n;
+                        if (fillGrid(g)) return true;
+                        g[r][c] = 0;
+                    }
+                }
+                return false;
+            }
         }
-        return false;
-      }
     }
-  }
-  return true;
-}
-
-function removeNumbers(g, cnt) {
-  while (cnt > 0) {
-    let r = Math.floor(Math.random()*9);
-    let c = Math.floor(Math.random()*9);
-    if (g[r][c] !== 0) {
-      g[r][c] = 0;
-      cnt--;
-    }
-  }
+    return true;
 }
 
 function isSafe(g, r, c, n) {
-  for (let i=0; i<9; i++)
-    if (g[r][i] === n || g[i][c] === n) return false;
-
-  let br = r - (r % 3),
-      bc = c - (c % 3);
-
-  for (let i=0; i<3; i++)
-    for (let j=0; j<3; j++)
-      if (g[br+i][bc+j] === n) return false;
-
-  return true;
+    for (let i = 0; i < 9; i++) {
+        if (g[r][i] === n) return false;
+        if (g[i][c] === n) return false;
+    }
+    let br = Math.floor(r / 3) * 3;
+    let bc = Math.floor(c / 3) * 3;
+    for (let i = 0; i < 3; i++)
+        for (let j = 0; j < 3; j++)
+            if (g[br+i][bc+j] === n) return false;
+    return true;
 }
 
-function shuffle(a) {
-  for (let i = a.length-1; i>0; i--) {
-    let j = Math.floor(Math.random()* (i+1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+function removeNumbers(grid, count) {
+    let removed = 0;
+    while (removed < count) {
+        let r = Math.floor(Math.random() * 9);
+        let c = Math.floor(Math.random() * 9);
+        if (grid[r][c] !== 0) {
+            grid[r][c] = 0;
+            removed++;
+        }
+    }
 }
 
-/* ——————————————————————————————
+/* ============================================================
    RENDERIZAÇÃO DO TABULEIRO
-—————————————————————————————— */
-function renderGrid() {
-  const board = document.getElementById("sudoku-grid");
-  board.innerHTML = "";
+============================================================ */
+function renderBoard() {
+    const board = document.getElementById("sudoku-grid");
+    board.innerHTML = "";
 
-  for (let r=0; r<9; r++) {
-    for (let c=0; c<9; c++) {
+    for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            cell.dataset.r = r;
+            cell.dataset.c = c;
 
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      cell.dataset.r = r;
-      cell.dataset.c = c;
+            if (puzzle[r][c] !== 0) {
+                cell.textContent = puzzle[r][c];
+                cell.classList.add("given");
+            } else {
+                cell.onclick = () => selectCell(cell);
+            }
 
-      if (grid[r][c] !== 0) {
-        cell.textContent = grid[r][c];
-        cell.classList.add("given");
-      } else {
-        cell.addEventListener("click", () => selectCell(r,c));
-      }
-
-      board.appendChild(cell);
+            board.appendChild(cell);
+        }
     }
-  }
 }
 
-/* ——————————————————————————————
-   SELEÇÃO + DESTAQUES
-—————————————————————————————— */
-function selectCell(r, c) {
-  selected = {r,c};
-  highlightBoard();
+/* ============================================================
+   SELEÇÃO DE CÉLULAS E DESTAQUES
+============================================================ */
+function selectCell(cell) {
+    if (finished) return;
+
+    clearHighlights();
+
+    selectedCell = cell;
+    cell.classList.add("selected");
+
+    let r = parseInt(cell.dataset.r);
+    let c = parseInt(cell.dataset.c);
+
+    highlightRelated(r, c);
+    highlightSameNumbers(cell);
 }
 
-function highlightBoard() {
-  document.querySelectorAll(".cell").forEach(cell => {
-    cell.classList.remove("selected","related","same-number");
-  });
+function clearHighlights() {
+    document.querySelectorAll(".cell").forEach(c => {
+        c.classList.remove("selected", "related", "same");
+    });
+}
 
-  if (!selected) return;
+function highlightRelated(r, c) {
+    document.querySelectorAll(".cell").forEach(cell => {
+        let rr = parseInt(cell.dataset.r);
+        let cc = parseInt(cell.dataset.c);
+        if (rr === r || cc === c ||
+            (Math.floor(rr/3) === Math.floor(r/3) && Math.floor(cc/3) === Math.floor(c/3))) {
+            cell.classList.add("related");
+        }
+    });
+}
 
-  const {r, c} = selected;
-  const value = grid[r][c];
+function highlightSameNumbers(cell) {
+    const val = cell.textContent;
+    if (!val) return;
 
-  document.querySelectorAll(".cell").forEach(cell => {
-    let R = Number(cell.dataset.r);
-    let C = Number(cell.dataset.c);
-    let V = cell.textContent;
+    document.querySelectorAll(".cell").forEach(c => {
+        if (c.textContent === val) c.classList.add("same");
+    });
+}
 
-    if (R === r && C === c) cell.classList.add("selected");
-    if (R === r || C === c) cell.classList.add("related");
+/* ============================================================
+   NÚMERO PAD (DESKTOP/MOBILE)
+============================================================ */
+function renderNumberPads() {
+    renderPad("number-pad");
+    renderPad("number-pad-mobile");
+}
 
-    if (Math.floor(R/3) === Math.floor(r/3) &&
-        Math.floor(C/3) === Math.floor(c/3)) {
-      cell.classList.add("related");
+function renderPad(id) {
+    const pad = document.getElementById(id);
+    pad.innerHTML = "";
+
+    for (let i = 1; i <= 9; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.onclick = () => insertNumber(i);
+        pad.appendChild(btn);
+    }
+}
+
+/* ============================================================
+   INSERÇÃO DE NÚMEROS
+============================================================ */
+function insertNumber(num) {
+    if (!selectedCell || finished) return;
+
+    let r = parseInt(selectedCell.dataset.r);
+    let c = parseInt(selectedCell.dataset.c);
+
+    if (puzzle[r][c] !== 0) return; // célula fixa
+
+    // Modo notas
+    if (notesMode) {
+        insertNote(selectedCell, num);
+        return;
     }
 
-    if (V && V === String(value)) cell.classList.add("same-number");
-  });
+    selectedCell.innerHTML = num;
+
+    if (num == solution[r][c]) {
+        selectedCell.classList.add("correct");
+        checkFinish();
+    } else {
+        mistakes++;
+        updateMistakes();
+        if (mistakes >= 5) showErrorModal();
+    }
+
+    highlightSameNumbers(selectedCell);
 }
 
-/* ——————————————————————————————
-   INTERAÇÃO - TECLADO NUMÉRICO
-—————————————————————————————— */
-function renderPad() {
-  const pad = document.getElementById("number-pad");
-  pad.innerHTML = "";
-
-  for (let n=1; n<=9; n++) {
-    const btn = document.createElement("button");
-    btn.textContent = n;
-    btn.addEventListener("click", () => handleInput(n));
-    pad.appendChild(btn);
-  }
-}
-
-function handleInput(n) {
-  if (!selected) return;
-  const {r,c} = selected;
-
-  if (document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`).classList.contains("given"))
-    return;
-
-  if (notesMode) {
-    addNote(r,c,n);
-    return;
-  }
-
-  grid[r][c] = n;
-  renderGrid();
-  highlightBoard();
-  validateMove(r,c);
-}
-
-/* ——————————————————————————————
-   NOTES (ANOTAÇÕES)
-—————————————————————————————— */
+/* ============================================================
+   NOTAS (CANDIDATOS)
+============================================================ */
 function toggleNotes() {
-  notesMode = !notesMode;
-  document.getElementById("notes-btn").style.background = notesMode ? "#9ab" : "";
+    notesMode = !notesMode;
+
+    document.getElementById("notes-btn").classList.toggle("active", notesMode);
+    document.getElementById("notes-btn-m").classList.toggle("active", notesMode);
 }
 
-function addNote(r,c,n) {
-  const cell = document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`);
+function insertNote(cell, num) {
+    if (!cell.classList.contains("notes")) {
+        cell.innerHTML = "";
+        cell.classList.add("notes");
+    }
+    if (cell.innerHTML.includes(num)) return;
 
-  if (cell.classList.contains("given")) return;
-
-  if (!cell.dataset.notes) cell.dataset.notes = JSON.stringify([]);
-  let arr = JSON.parse(cell.dataset.notes);
-
-  if (arr.includes(n)) arr = arr.filter(x => x!==n);
-  else arr.push(n);
-
-  cell.dataset.notes = JSON.stringify(arr);
-
-  cell.innerHTML =
-    `<div class="notes">${[1,2,3,4,5,6,7,8,9].map(num =>
-      arr.includes(num)? num : ""
-    ).join("")}</div>`;
+    cell.innerHTML += `<span>${num}</span>`;
 }
 
-/* ——————————————————————————————
-   APAGAR
-—————————————————————————————— */
+/* ============================================================
+   APAGAR NÚMERO
+============================================================ */
 function eraseCell() {
-  if (!selected) return;
-
-  const {r,c} = selected;
-  if (document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`).classList.contains("given"))
-    return;
-
-  grid[r][c] = 0;
-  renderGrid();
-  highlightBoard();
+    if (!selectedCell || selectedCell.classList.contains("given")) return;
+    selectedCell.innerHTML = "";
 }
 
-/* ——————————————————————————————
-   VALIDAR MOVIMENTO
-—————————————————————————————— */
-function validateMove(r,c) {
-  if (grid[r][c] === solution[r][c]) return;
+/* ============================================================
+   DICA
+============================================================ */
+function giveHint() {
+    if (!selectedCell) return;
 
-  mistakes++;
-  updateInfo();
+    let r = selectedCell.dataset.r;
+    let c = selectedCell.dataset.c;
 
-  if (mistakes >= 5) {
+    selectedCell.innerHTML = solution[r][c];
+}
+
+/* ============================================================
+   CHECAR TABULEIRO INSTANTÂNEO
+============================================================ */
+function checkBoard() {
+    document.querySelectorAll(".cell").forEach(cell => {
+        let r = cell.dataset.r;
+        let c = cell.dataset.c;
+
+        if (!cell.classList.contains("given")) {
+            if (cell.textContent == solution[r][c]) {
+                cell.classList.add("correct");
+            } else {
+                cell.classList.add("wrong");
+            }
+        }
+    });
+}
+
+/* ============================================================
+   TIMER
+============================================================ */
+function updateTimer() {
+    if (finished) return;
+
+    let diff = Math.floor((Date.now() - startTime) / 1000);
+
+    let min = String(Math.floor(diff / 60)).padStart(2, "0");
+    let sec = String(diff % 60).padStart(2, "0");
+
+    document.getElementById("time").textContent = `${min}:${sec}`;
+}
+
+/* ============================================================
+   ERROS
+============================================================ */
+function updateMistakes() {
+    document.getElementById("mistakes").textContent = mistakes;
+}
+
+function showErrorModal() {
     clearInterval(timerInterval);
     document.getElementById("error-modal").style.display = "flex";
-  }
 }
 
-/* ——————————————————————————————
-   DICA REAL
-—————————————————————————————— */
-function giveHint() {
-  let empties = [];
-  for (let r=0;r<9;r++)
-    for (let c=0;c<9;c++)
-      if (grid[r][c] === 0)
-        empties.push({r,c});
-
-  if (empties.length === 0) return;
-
-  let chosen = empties[Math.floor(Math.random()*empties.length)];
-  let {r,c} = chosen;
-
-  grid[r][c] = solution[r][c];
-  renderGrid();
-  highlightBoard();
+function rewardedContinue() {
+    // Aqui será adicionado o rewarded ad real
+    mistakes = 0;
+    updateMistakes();
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
+    closeAllModals();
 }
 
-/* ——————————————————————————————
-   CHECAR TABULEIRO
-—————————————————————————————— */
-function checkBoard() {
-  for (let r=0;r<9;r++)
-    for (let c=0;c<9;c++)
-      if (grid[r][c] !== solution[r][c]) return alert("Ainda há erros!");
+/* ============================================================
+   TERMINAR O JOGO
+============================================================ */
+function checkFinish() {
+    for (let r = 0; r < 9; r++)
+        for (let c = 0; c < 9; c++)
+            if (document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`).textContent == "")
+                return;
 
-  alert("Parabéns! Sudoku resolvido!");
+    endGame();
 }
 
-/* ——————————————————————————————
-   TIMER / SCORE
-—————————————————————————————— */
-function updateInfo() {
-  document.getElementById("mistakes").textContent = mistakes;
+function endGame() {
+    finished = true;
+    clearInterval(timerInterval);
 
-  document.getElementById("time").textContent =
-    new Date(timer * 1000).toISOString().substr(14,5);
+    saveScore();
+    loadRanking();
 
-  const score = Math.max(0, 5000 - timer*5 - mistakes*200);
-  document.getElementById("score").textContent = score;
+    document.getElementById("modal-end").style.display = "flex";
 }
 
-/* ——————————————————————————————
-   CONTINUAR APÓS PROPAGANDA
-—————————————————————————————— */
-function continueAfterAd() {
-  mistakes = 0;
-  timerInterval = setInterval(() => {
-    timer++;
-    updateInfo();
-  }, 1000);
-  document.getElementById("error-modal").style.display = "none";
+/* ============================================================
+   RANKING LOCAL
+============================================================ */
+function saveScore() {
+    let time = document.getElementById("time").textContent;
+    let points = calculatePoints();
+
+    let record = { time, points, date: new Date().toISOString() };
+
+    let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+    ranking.push(record);
+
+    ranking.sort((a,b) => b.points - a.points);
+    ranking = ranking.slice(0, 20);
+
+    localStorage.setItem("ranking", JSON.stringify(ranking));
 }
 
-/* ——————————————————————————————
-   INÍCIO AUTOMÁTICO
-—————————————————————————————— */
-window.onload = generateSudoku;
+function calculatePoints() {
+    let timeStr = document.getElementById("time").textContent;
+    let [m, s] = timeStr.split(":").map(Number);
+    let total = m * 60 + s;
+
+    let base = 10000;
+    let deduction = total * 5 + mistakes * 200;
+
+    return Math.max(0, base - deduction);
+}
+
+function loadRanking() {
+    let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+
+    const list = document.getElementById("ranking-list");
+    list.innerHTML = "";
+
+    ranking.slice(0, 10).forEach((r, i) => {
+        let li = document.createElement("li");
+        li.innerHTML = `<strong>#${i+1}</strong> – ${r.points} pontos • ${r.time}`;
+        list.appendChild(li);
+    });
+}
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
+function shuffle(a) {
+    return a.sort(() => Math.random() - 0.5);
+}
+
+function closeAllModals() {
+    document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+}
+
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
