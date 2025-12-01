@@ -3,49 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sudoku Lunieh • Jogue grátis agora!</title>
+  <title>Sudoku Lunieh • Premium</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Sudoku Lunieh</h1>
-    <p class="subtitle">Puzzles novos todos os dias • 100% grátis</p>
 
-    <div class="controls">
+  <!-- Cabeçalho -->
+  <header class="topbar">
+    <h1 class="logo">Sudoku <span>Lunieh</span></h1>
+
+    <div class="top-controls">
       <select id="difficulty">
-        <option value="20">Very Easy</option>
-        <option value="30">Easy</option>
-        <option value="42" selected>Medium</option>
-        <option value="50">Hard</option>
+        <option value="20">Muito Fácil</option>
+        <option value="35">Fácil</option>
+        <option value="45" selected>Médio</option>
+        <option value="55">Difícil</option>
         <option value="60">Expert</option>
       </select>
-      <button onclick="generateSudoku()">Novo Puzzle</button>
+
+      <button id="new-game">Novo Jogo</button>
+      <button id="toggle-dark">🌙</button>
     </div>
+  </header>
 
-    <div id="info">Pontos: 0 | Erros: 0 | Tempo: 0s</div>
+  <!-- Container principal -->
+  <main class="game-area">
 
-    <div id="sudoku-grid"></div>
-    <div id="number-pad"></div>   <!-- ← já existe no HTML, não dá mais erro -->
+    <section class="board-container">
+      <div id="sudoku-grid"></div>
+    </section>
 
-    <div class="footer">
-      <p>Feito com ♥ para quem ama números • 2025</p>
-    </div>
-  </div>
+    <aside class="side-tools">
 
-  <!-- Modal de 5 erros -->
+      <div class="info-box">
+        <p>Pontos: <span id="score">0</span></p>
+        <p>Erros: <span id="mistakes">0</span></p>
+        <p>Tempo: <span id="time">00:00</span></p>
+      </div>
+
+      <div class="action-buttons">
+        <button class="tool-btn" id="erase-btn">Apagar</button>
+        <button class="tool-btn" id="notes-btn">✎ Notas</button>
+        <button class="tool-btn" id="hint-btn">💡 Dica</button>
+        <button class="tool-btn" id="check-btn">✓ Verificar</button>
+      </div>
+
+      <div id="number-pad" class="num-pad"></div>
+    </aside>
+
+  </main>
+
+  <!-- MODAL -->
   <div id="error-modal" class="modal">
     <div class="modal-content">
-      <h3>Você atingiu 5 erros!</h3>
-      <p>Quer assistir um anúncio para continuar?</p>
-      <button onclick="continueWithAd()">Sim, assistir</button>
-      <button onclick="generateSudoku()">Novo jogo</button>
+      <h2>Você atingiu 5 erros!</h2>
+      <p>Deseja assistir um anúncio para continuar?</p>
+      <div class="modal-actions">
+        <button id="continue-ad">Assistir anúncio</button>
+        <button id="restart-modal">Novo jogo</button>
+      </div>
     </div>
   </div>
 
   <script src="sudoku.js"></script>
-  <script>
-    // Só inicia quando a página estiver totalmente carregada
-    window.onload = () => generateSudoku();
-  </script>
 </body>
 </html>
