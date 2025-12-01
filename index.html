@@ -10,13 +10,28 @@
   <div class="container">
     <h1>Sudoku Lunieh</h1>
     <p class="subtitle">Puzzles novos todos os dias • 100% grátis</p>
+    <select id="difficulty">
+      <option value="20">Very Easy</option>
+      <option value="30">Easy</option>
+      <option value="42" selected>Medium</option>
+      <option value="50">Hard</option>
+      <option value="60">Expert</option>
+    </select>
     <button onclick="generateSudoku()">Novo Puzzle</button>
     <div id="sudoku-grid"></div>
+    <div id="score">Pontos: 0 | Erros: 0 | Tempo: 0s</div>
     <div class="footer">
       <p>Feito com ♥ para quem ama números • 2025</p>
     </div>
   </div>
- boli
+  <!-- Modal para erros -->
+  <div id="error-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999;">
+    <div style="background:white; padding:20px; margin:20% auto; width:80%; max-width:300px; text-align:center; border-radius:10px;">
+      <p>Você atingiu 5 erros! Assistir anúncio para continuar?</p>
+      <button onclick="continueWithAd()">Sim</button>
+      <button onclick="generateSudoku()">Novo Jogo</button>
+    </div>
+  </div>
   <script src="sudoku.js"></script>
 </body>
 </html>
