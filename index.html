@@ -22,10 +22,10 @@
       <button onclick="generateSudoku()">Novo Puzzle</button>
     </div>
 
-    <div id="score">Pontos: 0 | Erros: 0 | Tempo: 0s</div>
+    <div id="info">Pontos: 0 | Erros: 0 | Tempo: 0s</div>
 
     <div id="sudoku-grid"></div>
-    <div id="number-pad"></div>
+    <div id="number-pad"></div>   <!-- ← já existe no HTML, não dá mais erro -->
 
     <div class="footer">
       <p>Feito com ♥ para quem ama números • 2025</p>
@@ -35,7 +35,7 @@
   <!-- Modal de 5 erros -->
   <div id="error-modal" class="modal">
     <div class="modal-content">
-      <p>Você atingiu 5 erros!</p>
+      <h3>Você atingiu 5 erros!</h3>
       <p>Quer assistir um anúncio para continuar?</p>
       <button onclick="continueWithAd()">Sim, assistir</button>
       <button onclick="generateSudoku()">Novo jogo</button>
@@ -43,5 +43,9 @@
   </div>
 
   <script src="sudoku.js"></script>
+  <script>
+    // Só inicia quando a página estiver totalmente carregada
+    window.onload = () => generateSudoku();
+  </script>
 </body>
 </html>
