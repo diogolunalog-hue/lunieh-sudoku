@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sudoku Lunieh • Premium</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <!-- Cabeçalho -->
+  <!-- =======================
+       HEADER
+  ======================== -->
   <header class="topbar">
     <h1 class="logo">Sudoku <span>Lunieh</span></h1>
 
@@ -26,14 +29,26 @@
     </div>
   </header>
 
-  <!-- Container principal -->
-  <main class="game-area">
+  <!-- =======================
+       ÁREA DE ADS (LIVRE)
+  ======================== -->
+  <div class="ad-slot top-ad"></div>
 
-    <section class="board-container">
+  <!-- =======================
+       CONTEÚDO PRINCIPAL
+  ======================== -->
+  <main class="game-container">
+
+    <!-- TABULEIRO -->
+    <section class="board-wrapper">
       <div id="sudoku-grid"></div>
+
+      <!-- LINHAS SOBREPOSTAS PARA SIMETRIA PERFEITA -->
+      <div class="grid-overlay"></div>
     </section>
 
-    <aside class="side-tools">
+    <!-- PAINEL DESKTOP -->
+    <aside class="right-panel desktop-only">
 
       <div class="info-box">
         <p>Pontos: <span id="score">0</span></p>
@@ -41,26 +56,57 @@
         <p>Tempo: <span id="time">00:00</span></p>
       </div>
 
-      <div class="action-buttons">
-        <button class="tool-btn" id="erase-btn">Apagar</button>
-        <button class="tool-btn" id="notes-btn">✎ Notas</button>
-        <button class="tool-btn" id="hint-btn">💡 Dica</button>
-        <button class="tool-btn" id="check-btn">✓ Verificar</button>
+      <div class="tool-buttons">
+        <button id="erase-btn">Apagar</button>
+        <button id="notes-btn">Notas</button>
+        <button id="hint-btn">Dica</button>
+        <button id="check-btn">Verificar</button>
       </div>
 
       <div id="number-pad" class="num-pad"></div>
+
+      <!-- SLOT DE ADS -->
+      <div class="ad-slot side-ad"></div>
     </aside>
 
   </main>
 
-  <!-- MODAL -->
+  <!-- ========== TOOLBAR MOBILE ========== -->
+  <div class="mobile-toolbar mobile-only">
+    <button id="erase-btn-m">Apagar</button>
+    <button id="notes-btn-m">Notas</button>
+    <button id="hint-btn-m">💡</button>
+    <button id="check-btn-m">✓</button>
+  </div>
+
+  <!-- NUMPAD MOBILE -->
+  <div id="number-pad-mobile" class="num-pad mobile-only"></div>
+
+  <!-- ========== MODAL ========== -->
+  <div id="modal-end" class="modal">
+    <div class="modal-content">
+      <h2>Parabéns!</h2>
+      <p>Você finalizou o Sudoku.</p>
+
+      <p class="best-score-message"></p>
+      <h3>Ranking da Semana</h3>
+      <ul id="ranking-list"></ul>
+
+      <div class="modal-actions">
+        <button id="play-again">Novo Jogo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL DE ERROS (5 ERROS) ========== -->
   <div id="error-modal" class="modal">
     <div class="modal-content">
       <h2>Você atingiu 5 erros!</h2>
-      <p>Deseja assistir um anúncio para continuar?</p>
+      <p>Assista um anúncio para continuar.</p>
+
       <div class="modal-actions">
-        <button id="continue-ad">Assistir anúncio</button>
-        <button id="restart-modal">Novo jogo</button>
+        <button id="continue-ad">Assistir Anúncio</button>
+        <button id="restart-modal">Novo Jogo</button>
       </div>
     </div>
   </div>
