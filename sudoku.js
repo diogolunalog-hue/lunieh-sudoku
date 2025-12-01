@@ -1,14 +1,25 @@
 let selectedCell = null;
 const grid = Array(9).fill().map(() => Array(9).fill(0));
 let solution = [];
+let errors = 0;
+let timer = 0;
+let timerInterval;
+let score = 0;
 
 function generateSudoku() {
-  // Gera grid completo
+  errors = 0;
+  timer = 0;
+  score = 0;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => { timer++; updateScore(); }, 1000);
   solution = createFullGrid();
   grid.forEach((row, i) => row.forEach((_, j) => grid[i][j] = solution[i][j]));
-  removeNumbers(grid, 42); // dificuldade média
+  const difficulty = parseInt(document.getElementById('difficulty').value);
+  removeNumbers(grid, difficulty);
   displayGrid();
   createNumberPad();
+  updateScore();
+  document.getElementById('error-modal').style.display = 'none';
 }
 
 function createFullGrid() {
@@ -39,9 +50,7 @@ function fillGrid(g) {
 function isSafe(g, row, col, num) {
   for (let i = 0; i < 9; i++) if (g[row][i] === num || g[i][col] === num) return false;
   const br = Math.floor(row / 3) * 3, bc = Math.floor(col / 3) * 3;
-  for (let i = 0; i < 3; i++)
-    for (let j = 0; j < 3; j++)
-      if (g[br + i][bc + j] === num) return false;
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) if (g[br + i][bc + j] === num) return false;
   return true;
 }
 
@@ -73,11 +82,16 @@ function displayGrid() {
         cell.dataset.col = c;
         cell.addEventListener('focus', () => selectedCell = cell);
         cell.addEventListener('input', checkInput);
+        cell.addEventListener('keydown', preventEnter);
       }
       row.appendChild(cell);
     }
     container.appendChild(row);
   }
+}
+
+function preventEnter(e) {
+  if (e.key === 'Enter') { e.preventDefault(); }
 }
 
 function createNumberPad() {
@@ -88,38 +102,78 @@ function createNumberPad() {
   for (let i = 1; i <= 9; i++) {
     const btn = document.createElement('button');
     btn.textContent = i;
-    btn.onclick = () => { if (selectedCell) selectedCell.textContent = i; checkAll(); };
+    btn.onclick = () => { if (selectedCell) selectedCell.textContent = i; checkAll(); updatePad(); };
     pad.appendChild(btn);
   }
   document.querySelector('.container').appendChild(pad);
+  updatePad();
+}
+
+function updatePad() {
+  const counts = Array(10).fill(0);
+  document.querySelectorAll('.cell').forEach(cell => {
+    const val = parseInt(cell.textContent) || 0;
+    if (val > 0) counts[val]++;
+  });
+  document.querySelectorAll('#number-pad button').forEach((btn, idx) => {
+    btn.disabled = counts[idx + 1] === 9;
+  });
 }
 
 function checkInput(e) {
-  const val = e.target.textContent;
-  if (!/^[1-9]?$/.test(val)) e.target.textContent = '';
+  const cell = e.target;
+  let val = cell.textContent.trim();
+  if (!/^[1-9]?$/.test(val)) { cell.textContent = ''; return; }
   checkAll();
 }
 
 function checkAll() {
-  let correct = true;
+  let correctCount = 0;
+  let newErrors = 0;
   document.querySelectorAll('.cell[contenteditable="true"]').forEach(cell => {
     const r = cell.dataset.row, c = cell.dataset.col;
-    if (cell.textContent && parseInt(cell.textContent) !== solution[r][c]) {
-      cell.style.color = '#ff6b6b';
-      correct = false;
-    } else if (cell.textContent) {
-      cell.style.color = '#00ffaa';
+    const val = parseInt(cell.textContent) || 0;
+    if (val !== 0) {
+      if (val === solution[r][c]) {
+        cell.contentEditable = false; // trava se correto
+        cell.style.background = '#e0ffe0';
+        cell.style.color = '#006600';
+        correctCount++;
+      } else {
+        cell.style.color = '#ff0000';
+        newErrors++;
+      }
     } else {
-      cell.style.color = '#fff';
+      cell.style.color = '#000';
     }
   });
-  if (correct && [...grid.flat()].filter(x => x === 0).length === 0) {
-    setTimeout(() => alert('Parabéns! Você completou o Sudoku! 🎉'), 500);
+  errors += newErrors;
+  if (errors >= 5) showErrorModal();
+  if (correctCount === 81 - document.querySelectorAll('.given').length) {
+    clearInterval(timerInterval);
+    alert(Parabéns! Pontos finais: ${score} 🎉);
   }
+  updateScore();
+}
+
+function updateScore() {
+  score = 10000 - (timer * 10) - (errors * 200);
+  if (score < 0) score = 0;
+  document.getElementById('score').textContent = Pontos: \( {score} | Erros: \){errors} | Tempo: ${timer}s;
+}
+
+function showErrorModal() {
+  clearInterval(timerInterval);
+  document.getElementById('error-modal').style.display = 'block';
+}
+
+function continueWithAd() {
+  // Simula anúncio (em real, integre AdSense aqui)
+  alert('Assistindo anúncio... (simulado – erros zerados!)');
+  errors = 0;
+  timerInterval = setInterval(() => { timer++; updateScore(); }, 1000);
+  document.getElementById('error-modal').style.display = 'none';
 }
 
 // inicia
-generateSudoku();
-
-// gera o primeiro puzzle automaticamente
 generateSudoku();
