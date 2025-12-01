@@ -112,3 +112,11 @@ button:hover { background: #0056b3; }
   margin-top: 30px;
   color: #888;
   font-size: 0.9em;
+
+  /* Responsividade mobile */
+@media (max-width: 500px) {
+  .cell { width: 35px; height: 35px; font-size: 1.4em; }
+  #number-pad button { width: 35px; height: 35px; font-size: 1.2em; }
+  #sudoku-grid { margin: 15px auto; }
+  .container { padding: 15px; }
+}
