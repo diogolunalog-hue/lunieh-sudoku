@@ -1,66 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sudoku Lunieh • Jogue Agora</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Lunieh • Jogue Grátis</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <header class="top-bar">
-    <h1 class="logo">
-      Sudoku <span>Lunieh</span>
-    </h1>
 
-    <div class="top-controls">
-      <select id="difficulty">
-        <option value="20">Muito Fácil</option>
-        <option value="30">Fácil</option>
-        <option value="42" selected>Médio</option>
-        <option value="50">Difícil</option>
-        <option value="60">Expert</option>
-      </select>
+  <!-- 🌙/☀️ Toggle tema -->
+  <button id="theme-toggle" aria-label="Alternar tema"></button>
 
-      <button id="new-game">Novo Jogo</button>
-      <button id="toggle-theme" title="Modo Claro/Escuro">🌙</button>
+  <div class="container">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <h1 class="logo">Sudoku Lunieh</h1>
+
+      <div class="top-controls">
+        <select id="difficulty">
+          <option value="20">Muito fácil</option>
+          <option value="30">Fácil</option>
+          <option value="42" selected>Médio</option>
+          <option value="50">Difícil</option>
+          <option value="60">Expert</option>
+        </select>
+
+        <button id="new-game">Novo</button>
+        <button id="pause">⏸</button>
+      </div>
+    </header>
+
+    <!-- INFO BAR -->
+    <div id="game-info">
+      Tempo: <span id="time">00:00</span> |
+      Erros: <span id="errors">0</span> |
+      Dicas: <span id="hints">3</span>
     </div>
-  </header>
 
-  <main>
-    <div id="info">Pontos: 0 | Erros: 0 | Tempo: 0s</div>
+    <!-- SUDOKU GRID -->
+    <div id="sudoku-grid"></div>
 
-    <div id="sudoku-container">
-      <div id="sudoku-grid"></div>
-    </div>
-
+    <!-- NUMBER PAD -->
     <div id="number-pad"></div>
 
-    <div id="bottom-actions">
-      <button id="erase" class="action-btn">Apagar</button>
-      <button id="notes" class="action-btn">Notas</button>
-      <button id="hint" class="action-btn">💡</button>
-      <button id="check" class="action-btn">✓</button>
-    </div>
-  </main>
+    <!-- ACTION BUTTON BAR -->
+    <div id="action-bar">
 
-  <!-- Modal de fim de jogo -->
-  <div id="end-modal" class="modal">
-    <div class="modal-content">
-      <h2>🎉 Puzzle Concluído!</h2>
-      <p id="end-message"></p>
-      <button onclick="generateSudoku()">Novo Jogo</button>
+      <button class="circle-btn" id="notes-btn" title="Notas">
+        ✏️
+      </button>
+
+      <button class="circle-btn" id="undo-btn" title="Desfazer">
+        ↩
+      </button>
+
+      <button class="circle-btn" id="hint-btn" title="Dica">
+        💡
+      </button>
+
+      <button class="circle-btn" id="eliminate-btn" title="Eliminar número">
+        🧽
+      </button>
+
+    </div>
+
+    <footer class="footer">
+      Feito com ♥ • Sudoku Lunieh • 2025
+    </footer>
+  </div>
+
+  <!-- PAUSE OVERLAY -->
+  <div id="pause-overlay">
+    <div class="pause-box">
+      <h2>Jogo Pausado</h2>
+      <p>Toque em continuar para retornar ao jogo.</p>
+      <button id="resume-btn">Continuar</button>
     </div>
   </div>
 
-  <!-- Modal de 5 erros -->
-  <div id="error-modal" class="modal">
-    <div class="modal-content">
-      <h3>Você atingiu 5 erros!</h3>
-      <p>Quer assistir um anúncio para continuar?</p>
-      <button onclick="continueWithAd()">Sim, assistir</button>
-      <button onclick="generateSudoku()">Novo jogo</button>
+  <!-- GAME COMPLETE MODAL -->
+  <div id="win-modal">
+    <div class="win-box">
+      <h2>Parabéns! 🎉</h2>
+      <p>Você completou o puzzle!</p>
+      <p>Seu tempo: <span id="final-time"></span></p>
+
+      <button id="play-again">Novo Puzzle</button>
     </div>
   </div>
 
