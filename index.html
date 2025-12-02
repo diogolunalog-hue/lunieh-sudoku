@@ -3,111 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sudoku Lunieh • Premium</title>
+  <title>Sudoku Lunieh • Jogue Agora</title>
+
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-
-  <!-- =======================
-       HEADER
-  ======================== -->
-  <header class="topbar">
-    <h1 class="logo">Sudoku <span>Lunieh</span></h1>
+  <header class="top-bar">
+    <h1 class="logo">
+      Sudoku <span>Lunieh</span>
+    </h1>
 
     <div class="top-controls">
       <select id="difficulty">
         <option value="20">Muito Fácil</option>
-        <option value="35">Fácil</option>
-        <option value="45" selected>Médio</option>
-        <option value="55">Difícil</option>
+        <option value="30">Fácil</option>
+        <option value="42" selected>Médio</option>
+        <option value="50">Difícil</option>
         <option value="60">Expert</option>
       </select>
 
       <button id="new-game">Novo Jogo</button>
-      <button id="toggle-dark">🌙</button>
+      <button id="toggle-theme" title="Modo Claro/Escuro">🌙</button>
     </div>
   </header>
 
-  <!-- =======================
-       ÁREA DE ADS (LIVRE)
-  ======================== -->
-  <div class="ad-slot top-ad"></div>
+  <main>
+    <div id="info">Pontos: 0 | Erros: 0 | Tempo: 0s</div>
 
-  <!-- =======================
-       CONTEÚDO PRINCIPAL
-  ======================== -->
-  <main class="game-container">
-
-    <!-- TABULEIRO -->
-    <section class="board-wrapper">
+    <div id="sudoku-container">
       <div id="sudoku-grid"></div>
+    </div>
 
-      <!-- LINHAS SOBREPOSTAS PARA SIMETRIA PERFEITA -->
-      <div class="grid-overlay"></div>
-    </section>
+    <div id="number-pad"></div>
 
-    <!-- PAINEL DESKTOP -->
-    <aside class="right-panel desktop-only">
-
-      <div class="info-box">
-        <p>Pontos: <span id="score">0</span></p>
-        <p>Erros: <span id="mistakes">0</span></p>
-        <p>Tempo: <span id="time">00:00</span></p>
-      </div>
-
-      <div class="tool-buttons">
-        <button id="erase-btn">Apagar</button>
-        <button id="notes-btn">Notas</button>
-        <button id="hint-btn">Dica</button>
-        <button id="check-btn">Verificar</button>
-      </div>
-
-      <div id="number-pad" class="num-pad"></div>
-
-      <!-- SLOT DE ADS -->
-      <div class="ad-slot side-ad"></div>
-    </aside>
-
+    <div id="bottom-actions">
+      <button id="erase" class="action-btn">Apagar</button>
+      <button id="notes" class="action-btn">Notas</button>
+      <button id="hint" class="action-btn">💡</button>
+      <button id="check" class="action-btn">✓</button>
+    </div>
   </main>
 
-  <!-- ========== TOOLBAR MOBILE ========== -->
-  <div class="mobile-toolbar mobile-only">
-    <button id="erase-btn-m">Apagar</button>
-    <button id="notes-btn-m">Notas</button>
-    <button id="hint-btn-m">💡</button>
-    <button id="check-btn-m">✓</button>
-  </div>
-
-  <!-- NUMPAD MOBILE -->
-  <div id="number-pad-mobile" class="num-pad mobile-only"></div>
-
-  <!-- ========== MODAL ========== -->
-  <div id="modal-end" class="modal">
+  <!-- Modal de fim de jogo -->
+  <div id="end-modal" class="modal">
     <div class="modal-content">
-      <h2>Parabéns!</h2>
-      <p>Você finalizou o Sudoku.</p>
-
-      <p class="best-score-message"></p>
-      <h3>Ranking da Semana</h3>
-      <ul id="ranking-list"></ul>
-
-      <div class="modal-actions">
-        <button id="play-again">Novo Jogo</button>
-      </div>
+      <h2>🎉 Puzzle Concluído!</h2>
+      <p id="end-message"></p>
+      <button onclick="generateSudoku()">Novo Jogo</button>
     </div>
   </div>
 
-  <!-- ========== MODAL DE ERROS (5 ERROS) ========== -->
+  <!-- Modal de 5 erros -->
   <div id="error-modal" class="modal">
     <div class="modal-content">
-      <h2>Você atingiu 5 erros!</h2>
-      <p>Assista um anúncio para continuar.</p>
-
-      <div class="modal-actions">
-        <button id="continue-ad">Assistir Anúncio</button>
-        <button id="restart-modal">Novo Jogo</button>
-      </div>
+      <h3>Você atingiu 5 erros!</h3>
+      <p>Quer assistir um anúncio para continuar?</p>
+      <button onclick="continueWithAd()">Sim, assistir</button>
+      <button onclick="generateSudoku()">Novo jogo</button>
     </div>
   </div>
 
