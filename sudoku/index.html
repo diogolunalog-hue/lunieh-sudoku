@@ -1,18 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sudoku - Lunieh</title>
-  <link rel="stylesheet" href="../css/global.css" />
-  <link rel="stylesheet" href="sudoku.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Lunieh • Jogue Grátis</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>Sudoku Lunieh</h1>
-  <div id="game-container">
-    <!-- Aqui vai o jogo -->
+
+  <!-- 🌙/☀️ Toggle tema -->
+  <button id="theme-toggle" aria-label="Alternar tema"></button>
+
+  <div class="container">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <h1 class="logo">Sudoku Lunieh</h1>
+
+      <div class="top-controls">
+        <select id="difficulty">
+          <option value="20">Muito fácil</option>
+          <option value="30">Fácil</option>
+          <option value="42" selected>Médio</option>
+          <option value="50">Difícil</option>
+          <option value="60">Expert</option>
+        </select>
+
+        <button id="new-game">Novo</button>
+        <button id="pause">⏸</button>
+      </div>
+    </header>
+
+    <!-- INFO BAR -->
+    <div id="game-info">
+      Tempo: <span id="time">00:00</span> |
+      Erros: <span id="errors">0</span> |
+      Dicas: <span id="hints">3</span>
+    </div>
+
+    <!-- SUDOKU GRID -->
+    <div id="sudoku-grid"></div>
+
+    <!-- NUMBER PAD -->
+    <div id="number-pad"></div>
+
+    <!-- ACTION BUTTON BAR -->
+    <div id="action-bar">
+
+      <button class="circle-btn" id="notes-btn" title="Notas">
+        ✏️
+      </button>
+
+      <button class="circle-btn" id="undo-btn" title="Desfazer">
+        ↩
+      </button>
+
+      <button class="circle-btn" id="hint-btn" title="Dica">
+        💡
+      </button>
+
+      <button class="circle-btn" id="eliminate-btn" title="Eliminar número">
+        🧽
+      </button>
+
+    </div>
+
+    <footer class="footer">
+      Feito com ♥ • Sudoku Lunieh • 2025
+    </footer>
   </div>
-  <script src="../js/global.js"></script>
+
+  <!-- PAUSE OVERLAY -->
+  <div id="pause-overlay">
+    <div class="pause-box">
+      <h2>Jogo Pausado</h2>
+      <p>Toque em continuar para retornar ao jogo.</p>
+      <button id="resume-btn">Continuar</button>
+    </div>
+  </div>
+
+  <!-- GAME COMPLETE MODAL -->
+  <div id="win-modal">
+    <div class="win-box">
+      <h2>Parabéns! 🎉</h2>
+      <p>Você completou o puzzle!</p>
+      <p>Seu tempo: <span id="final-time"></span></p>
+
+      <button id="play-again">Novo Puzzle</button>
+    </div>
+  </div>
+
   <script src="sudoku.js"></script>
 </body>
 </html>
-
