@@ -1,14 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <title>Contato - Sudoku Lunieh</title>
-    <link rel="stylesheet" href="../css/global.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato • Lunieh</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/global.css">
+
+    <!-- JS global -->
+    <script src="../js/global.js" defer></script>
 </head>
 <body>
-    <h1>Contato</h1>
-    <p>Entre em contato conosco pelo email: contato@lunieh.com.br</p>
-    <a href="../index.html">Voltar para a página inicial</a>
+
+<header>
+    <div class="container header-container">
+        <div class="logo">Lunieh</div>
+
+        <nav class="menu-desktop">
+            <a href="../index.html">Início</a>
+            <a href="../sudoku/index.html">Sudoku</a>
+            <a href="como-jogar.html">Como Jogar</a>
+            <a href="estrategias.html">Estratégias</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contato.html" class="ativo">Contato</a>
+        </nav>
+
+        <button class="menu-mobile-btn" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <nav id="menu-mobile" class="menu-mobile">
+        <a href="../index.html">Início</a>
+        <a href="../sudoku/index.html">Sudoku</a>
+        <a href="como-jogar.html">Como Jogar</a>
+        <a href="estrategias.html">Estratégias</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="contato.html" class="ativo">Contato</a>
+    </nav>
+</header>
+
+<main>
+    <section class="pagina-conteudo">
+        <h1>Contato</h1>
+
+        <p>Se você tem dúvidas, sugestões, encontrou algum erro ou deseja fazer uma parceria com o Lunieh,
+           basta entrar em contato pelos canais abaixo.</p>
+
+        <h2>Email profissional</h2>
+        <p>
+            Você pode enviar mensagens diretamente para:<br>
+            <strong>contato@lunieh.com.br</strong>
+        </p>
+
+        <h2>Formulário de mensagem</h2>
+        <p>Este formulário envia diretamente para o seu email profissional.</p>
+
+        <form action="https://formsubmit.co/contato@lunieh.com.br" method="POST" class="form-contato">
+
+            <!-- Evita SPAM -->
+            <input type="hidden" name="_captcha" value="false">
+
+            <!-- Redirecionamento após envio -->
+            <input type="hidden" name="_next" value="https://lunieh.com.br/paginas/contato.html?enviado=1">
+
+            <label>Nome</label>
+            <input type="text" name="nome" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Mensagem</label>
+            <textarea name="mensagem" rows="5" required></textarea>
+
+            <button type="submit" class="botao-acao">Enviar</button>
+        </form>
+
+        <br><br>
+
+        <h2>Tempo de Resposta</h2>
+        <p>Normalmente respondemos em até <strong>24 a 48 horas</strong>.</p>
+
+        <h2>Parcerias</h2>
+        <p>
+            Se você deseja propor algum projeto, colaboração, publicação ou ideia,
+            envie detalhadamente no assunto do email.
+        </p>
+
+        <br>
+        <p><em>Agradecemos por usar o Lunieh!</em></p>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-container">
+        <p>© 2025 Lunieh • Todos os direitos reservados</p>
+    </div>
+</footer>
+
 </body>
 </html>
-
