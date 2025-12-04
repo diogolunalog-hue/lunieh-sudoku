@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategias de Sudoku • Lunieh</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/global.css">
+
+    <!-- JS global -->
+    <script src="../js/global.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="container header-container">
+        <div class="logo">Lunieh</div>
+
+        <nav class="menu-desktop">
+            <a href="../index.html">Início</a>
+            <a href="../sudoku/index.html">Sudoku</a>
+            <a href="como-jogar.html">Como Jogar</a>
+            <a href="estrategias.html" class="ativo">Estratégias</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contato.html">Contato</a>
+        </nav>
+
+        <button class="menu-mobile-btn" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <nav id="menu-mobile" class="menu-mobile">
+        <a href="../index.html">Início</a>
+        <a href="../sudoku/index.html">Sudoku</a>
+        <a href="como-jogar.html">Como Jogar</a>
+        <a href="estrategias.html" class="ativo">Estratégias</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="contato.html">Contato</a>
+    </nav>
+</header>
+
+<main>
+    <section class="pagina-conteudo">
+        <h1>Estratégias de Sudoku</h1>
+
+        <p>Se você já domina o básico do Sudoku, agora é hora de avançar para técnicas mais poderosas
+           que ajudam a resolver puzzles difíceis e até níveis Expert.</p>
+
+        <h2>1. Varredura (Scanning)</h2>
+        <p>É a técnica mais simples: analisar linha por linha, coluna por coluna e bloco por bloco,
+           eliminando números impossíveis e encontrando posições óbvias.</p>
+
+        <h2>2. Técnica do Número Faltante</h2>
+        <p>Se uma linha possui oito números preenchidos, o último é fácil de descobrir.
+           Isso também vale para colunas e blocos.</p>
+
+        <h2>3. Candidatos (Pencil Marks)</h2>
+        <p>Jogadores avançados anotam mentalmente (ou no jogo) todos os possíveis números que podem ir em cada célula.
+           Assim fica mais fácil ver padrões.</p>
+
+        <h2>4. Pares e Trincas Ocultas</h2>
+        <p>Quando dois números possíveis só aparecem em duas células de uma mesma área (linha, bloco ou coluna),
+           eles formam um par oculto. Mesmo que não saiba a ordem, já pode eliminar todos os outros números das células ao redor.</p>
+
+        <h2>5. Linha Interagindo com Bloco</h2>
+        <p>Se um número só pode aparecer em uma linha específica dentro de um bloco 3×3,
+           você pode eliminar esse número das mesmas linhas em outros blocos.</p>
+
+        <h2>6. X-Wing (técnica avançada)</h2>
+        <p>Ao analisar pares de linhas e colunas com candidatos iguais, é possível eliminar posições erradas.
+           É uma das técnicas mais poderosas e usada em níveis profissionais.</p>
+
+        <h2>7. Evite adivinhações</h2>
+        <p>Adivinhar pode parecer rápido, mas geralmente leva a erros e travamentos.
+           As técnicas acima geralmente resolvem até puzzles muito difíceis.</p>
+
+        <h2>Pratique e evolua</h2>
+        <p>A melhor maneira de dominar estratégias é praticando diariamente.
+           No Lunieh, você tem puzzles novos todos os dias.</p>
+
+        <a href="../sudoku/index.html" class="botao-acao">Voltar ao Sudoku</a>
+
+        <br><br>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-container">
+        <p>© 2025 Lunieh • Todos os direitos reservados</p>
+    </div>
+</footer>
+
+</body>
+</html>
 
