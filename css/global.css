@@ -1,67 +1,229 @@
-/* global.css - estilo base para o site todo */
+/* ============================
+   RESET BÁSICO
+=============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", Arial, sans-serif;
+}
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff;
-  color: #222222;
-  margin: 0;
-  padding: 0 20px;
-  line-height: 1.6;
+    background: #f4f4f4;
+    color: #222;
+    line-height: 1.6;
 }
 
-a {
-  color: #1e90ff;
-  text-decoration: none;
+/* ============================
+   VARIÁVEIS
+=============================== */
+:root {
+    --cor-primaria: #1e88ff;
+    --cor-secundaria: #0056c7;
+    --cor-texto: #222;
+    --cor-fundo: #ffffff;
+
+    --cor-cartao: #fff;
+    --cor-cartao-borda: #e0e0e0;
+
+    --cor-header: #ffffff;
+    --cor-header-texto: #222;
+
+    --cor-footer: #fafafa;
 }
 
-a:hover {
-  text-decoration: underline;
+/* ============================
+   HEADER (MENU SUPERIOR)
+=============================== */
+.site-header {
+    width: 100%;
+    background: var(--cor-header);
+    border-bottom: 1px solid #ddd;
+    padding: 12px 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-h1, h2, h3 {
-  color: #333333;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
+.logo a {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    text-decoration: none;
 }
 
-p {
-  margin-bottom: 1rem;
+.menu {
+    display: flex;
+    gap: 24px;
 }
 
-header, footer {
-  background-color: #1e90ff;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
+.menu a {
+    font-size: 16px;
+    text-decoration: none;
+    color: var(--cor-header-texto);
+    font-weight: 500;
+    transition: 0.2s;
 }
 
-nav {
-  margin: 10px 0 20px;
+.menu a:hover {
+    color: var(--cor-primaria);
 }
 
-nav a {
-  margin: 0 10px;
-  font-weight: bold;
+/* ============================
+   BOTÃO MOBILE
+=============================== */
+.menu-mobile-btn {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.container {
-  max-width: 960px;
-  margin: auto;
+.menu-mobile {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    background: #fff;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: 0.25s ease;
+    z-index: 300;
+    border-left: 1px solid #ddd;
 }
 
-/* Formatação simples para botões */
-button {
-  cursor: pointer;
-  background-color: #1e90ff;
-  border: none;
-  padding: 10px 20px;
-  color: white;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+.menu-mobile a {
+    font-size: 18px;
+    text-decoration: none;
+    color: #333;
 }
 
-button:hover {
-  background-color: #005bbb;
+.menu-mobile.aberto {
+    right: 0;
 }
 
+/* ============================
+   HOME (index.html)
+=============================== */
+.home-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.home-container h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.home-subtitle {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 40px;
+}
+
+.home-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--cor-cartao);
+    padding: 24px;
+    border-radius: 10px;
+    border: 1px solid var(--cor-cartao-borda);
+    text-align: left;
+    cursor: pointer;
+    transition: 0.25s;
+    text-decoration: none;
+    color: #222;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--cor-primaria);
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: var(--cor-primaria);
+}
+
+/* ============================
+   RODAPÉ
+=============================== */
+.site-footer {
+    margin-top: 80px;
+    background: var(--cor-footer);
+    padding: 25px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+.site-footer p {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--cor-primaria);
+}
+
+/* ============================
+   RESPONSIVIDADE
+=============================== */
+@media (max-width: 850px) {
+    .menu {
+        display: none;
+    }
+
+    .menu-mobile-btn {
+        display: block;
+    }
+}
+
+/* ============================
+   MODO ESCURO (EXPANSÍVEL)
+=============================== */
+/* Você pode ativar isso mais tarde com um botão JS */
+body.dark {
+    background: #222;
+    color: #ddd;
+}
+
+body.dark .site-header {
+    background: #111;
+    border-bottom-color: #333;
+}
+
+body.dark .menu-mobile {
+    background: #111;
+    border-left-color: #333;
+}
+
+body.dark .card {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #ddd;
+}
+
+body.dark .card h2 {
+    color: var(--cor-primaria);
+}
