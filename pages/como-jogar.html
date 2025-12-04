@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Jogar Sudoku • Lunieh</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/global.css">
+
+    <!-- JS global -->
+    <script src="../js/global.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="container header-container">
+        <div class="logo">Lunieh</div>
+
+        <nav class="menu-desktop">
+            <a href="../index.html">Início</a>
+            <a href="../sudoku/index.html">Sudoku</a>
+            <a href="como-jogar.html" class="ativo">Como Jogar</a>
+            <a href="estrategias.html">Estratégias</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contato.html">Contato</a>
+        </nav>
+
+        <button class="menu-mobile-btn" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <nav id="menu-mobile" class="menu-mobile">
+        <a href="../index.html">Início</a>
+        <a href="../sudoku/index.html">Sudoku</a>
+        <a href="como-jogar.html" class="ativo">Como Jogar</a>
+        <a href="estrategias.html">Estratégias</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="contato.html">Contato</a>
+    </nav>
+</header>
+
+<main>
+    <section class="pagina-conteudo">
+        <h1>Como Jogar Sudoku</h1>
+
+        <p>Sudoku é um dos jogos de lógica mais famosos do mundo. Ele é simples de aprender,
+           viciante e excelente para treinar o cérebro.</p>
+
+        <h2>Objetivo do jogo</h2>
+        <p>Preencher todos os 81 espaços de um tabuleiro 9×9 utilizando números de <strong>1 a 9</strong>,
+           seguindo três regras básicas:</p>
+
+        <ul>
+            <li>Cada linha deve conter todos os números de 1 a 9, sem repetir</li>
+            <li>Cada coluna também deve conter todos os números de 1 a 9</li>
+            <li>Cada bloco 3×3 deve ter todos os números de 1 a 9</li>
+        </ul>
+
+        <h2>Como começar</h2>
+        <p>O jogo já fornece alguns números iniciais chamados de <strong>pistas</strong>.
+           Seu desafio é descobrir onde os números restantes devem ser colocados.</p>
+
+        <h2>Dicas importantes para iniciantes</h2>
+
+        <h3>1. Comece pelas linhas e colunas mais cheias</h3>
+        <p>Linhas com mais números ajudam a descobrir onde os faltantes devem ir.</p>
+
+        <h3>2. Use a eliminação lógica</h3>
+        <p>Se um número já aparece na linha, na coluna ou no bloco, ele não pode ser colocado ali.</p>
+
+        <h3>3. Procure "números solitários"</h3>
+        <p>Às vezes, um número só pode estar em um único lugar de um bloco 3×3.</p>
+
+        <h3>4. Evite adivinhações</h3>
+        <p>Jogar Sudoku é sobre lógica. Adivinhar aumenta a chance de erros e travamentos.</p>
+
+        <h2>Dificuldades disponíveis</h2>
+        <ul>
+            <li><strong>Muito Fácil</strong></li>
+            <li><strong>Fácil</strong></li>
+            <li><strong>Médio</strong></li>
+            <li><strong>Difícil</strong></li>
+            <li><strong>Expert</strong></li>
+        </ul>
+
+        <p>Cada nível remove mais números do tabuleiro, tornando o raciocínio mais desafiador.</p>
+
+        <h2>Pronto para jogar?</h2>
+        <p>Basta acessar a página principal do Sudoku e começar um novo puzzle!</p>
+
+        <a href="../sudoku/index.html" class="botao-acao">Jogar Sudoku Agora</a>
+
+        <br><br>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-container">
+        <p>© 2025 Lunieh • Todos os direitos reservados</p>
+    </div>
+</footer>
+
+</body>
+</html>
 
