@@ -1,30 +1,85 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lunieh Sudoku - Site Oficial</title>
-  <link rel="stylesheet" href="css/global.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Lunieh • Jogos de Lógica e Palavras</title>
+
+    <!-- Estilos globais -->
+    <link rel="stylesheet" href="css/global.css">
 </head>
 <body>
-  <header>
-    <h1>Lunieh Sudoku</h1>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="contato.html">Contato</a>
-      <a href="politica.html">Política de Privacidade</a>
+
+<header class="site-header">
+    <div class="logo">
+        <a href="/">Lunieh</a>
+    </div>
+
+    <nav class="menu">
+        <a href="/">Início</a>
+        <a href="/sudoku/index.html">Sudoku</a>
+        <a href="/paginas/como-jogar.html">Como Jogar</a>
+        <a href="/paginas/estrategias.html">Estratégias</a>
+        <a href="/paginas/sobre.html">Sobre</a>
+        <a href="/paginas/contato.html">Contato</a>
     </nav>
-  </header>
 
-  <main class="container">
-    <h2>Bem-vindo ao Lunieh Sudoku!</h2>
-    <p>Seu lugar para jogar Sudoku online, aprender e se divertir.</p>
-    <p>Escolha uma opção no menu para saber mais sobre nós, entrar em contato ou conhecer nossas políticas.</p>
-  </main>
+    <button class="menu-mobile-btn" onclick="toggleMenu()">☰</button>
+</header>
 
-  <footer>
-    <p>&copy; 2025 Lunieh Sudoku - Todos os direitos reservados.</p>
-  </footer>
+<!-- Menu mobile -->
+<nav id="menu-mobile" class="menu-mobile">
+    <a href="/">Início</a>
+    <a href="/sudoku/index.html">Sudoku</a>
+    <a href="/paginas/como-jogar.html">Como Jogar</a>
+    <a href="/paginas/estrategias.html">Estratégias</a>
+    <a href="/paginas/sobre.html">Sobre</a>
+    <a href="/paginas/contato.html">Contato</a>
+</nav>
+
+<main class="home-container">
+
+    <h1>Bem-vindo ao Lunieh</h1>
+    <p class="home-subtitle">
+        Jogos de lógica, raciocínio e palavras — grátis e direto no navegador.
+    </p>
+
+    <div class="home-cards">
+        <a class="card" href="/sudoku/index.html">
+            <h2>Sudoku</h2>
+            <p>Jogue agora dezenas de níveis gratuitos.</p>
+        </a>
+
+        <a class="card" href="/paginas/como-jogar.html">
+            <h2>Guia de Regras</h2>
+            <p>Aprenda a jogar Sudoku em minutos.</p>
+        </a>
+
+        <a class="card" href="/paginas/estrategias.html">
+            <h2>Estrategias</h2>
+            <p>Dicas para evoluir do básico ao avançado.</p>
+        </a>
+
+        <a class="card" href="/paginas/sobre.html">
+            <h2>Sobre o Projeto</h2>
+            <p>Saiba quem somos e o propósito do site.</p>
+        </a>
+
+        <a class="card" href="/paginas/contato.html">
+            <h2>Contato</h2>
+            <p>Fale conosco para sugestões e parcerias.</p>
+        </a>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <p>© 2025 Lunieh — Todos os direitos reservados</p>
+    <div class="footer-links">
+        <a href="/paginas/politicas.html">Política de Privacidade</a>
+        <a href="/paginas/termos.html">Termos de Uso</a>
+    </div>
+</footer>
+
+<script src="/js/global.js"></script>
 </body>
 </html>
