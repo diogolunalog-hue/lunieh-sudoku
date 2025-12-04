@@ -1,100 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Lunieh • Jogos de Lógica</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Lunieh • Jogos de Lógica</title>
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/sudoku.css">
+  <!-- Estilos -->
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/sudoku.css">
 </head>
 <body>
 
-<header class="site-header">
-    <div class="logo">
-        <a href="/">Lunieh</a>
-    </div>
+<header class="sudoku-header">
+  <div class="header-left">
+    <h1 class="logo">Lunieh Sudoku</h1>
+  </div>
 
-    <nav class="menu">
-        <a href="/">Início</a>
-        <a href="/sudoku/index.html" class="active">Sudoku</a>
-        <a href="/paginas/como-jogar.html">Como Jogar</a>
-        <a href="/paginas/estrategias.html">Estratégias</a>
-        <a href="/paginas/sobre.html">Sobre</a>
-        <a href="/paginas/contato.html">Contato</a>
-    </nav>
-
-    <button class="menu-mobile-btn" onclick="toggleMenu()">☰</button>
+  <div class="header-right">
+    <button id="pause" title="Pausar">⏸</button>
+    <button id="theme-toggle" title="Tema">☀️/🌙</button>
+  </div>
 </header>
 
-<nav id="menu-mobile" class="menu-mobile">
-    <a href="/">Início</a>
-    <a href="/sudoku/index.html" class="active">Sudoku</a>
-    <a href="/paginas/como-jogar.html">Como Jogar</a>
-    <a href="/paginas/estrategias.html">Estratégias</a>
-    <a href="/paginas/sobre.html">Sobre</a>
-    <a href="/paginas/contato.html">Contato</a>
-</nav>
+<div class="info-bar">
+  <span>Tempo: <span id="time">00:00</span></span>
+  <span>Erros: <span id="errors">0</span></span>
+  <span>Pontos: <span id="score">0</span></span>
+</div>
 
 <main class="sudoku-container">
-    <section class="controls">
-        <label for="difficulty">Dificuldade:</label>
-        <select id="difficulty">
-            <option value="30">Fácil</option>
-            <option value="40">Médio</option>
-            <option value="50">Difícil</option>
-        </select>
 
-        <button id="new-game">Novo Jogo</button>
-        <button id="pause">⏸</button>
-        <button id="notes-btn">Notas</button>
-        <button id="undo-btn">Desfazer</button>
-        <button id="hint-btn">Dica</button>
-        <button id="eliminate-btn">Eliminar</button>
-        <button id="theme-toggle">Tema</button>
-    </section>
+  <div id="sudoku-grid" class="sudoku-grid">
+    <!-- Grid será gerado pelo JS -->
+  </div>
 
-    <section class="info-bar">
-        <span>Erros: <span id="errors">0</span></span>
-        <span>Tempo: <span id="time">00:00</span></span>
-        <span>Dicas: <span id="hints">3</span></span>
-    </section>
+  <!-- Barra de ações -->
+  <div class="action-bar">
+    <button class="circle-btn" id="notes-btn" title="Notas">✏️</button>
+    <button class="circle-btn" id="undo-btn" title="Desfazer">↩</button>
+    <button class="circle-btn" id="hint-btn" title="Dica">💡</button>
+    <button class="circle-btn" id="eliminate-btn" title="Eliminar">🧽</button>
+  </div>
 
-    <section id="sudoku-grid" class="sudoku-grid">
-        <!-- Células do Sudoku serão geradas pelo JS -->
-    </section>
+  <!-- Number pad -->
+  <div id="number-pad" class="number-pad">
+    <!-- Botões 1 a 9 serão gerados pelo JS -->
+  </div>
 
-    <section id="number-pad" class="number-pad">
-        <!-- Botões 1 a 9 gerados pelo JS -->
-    </section>
 </main>
 
 <!-- Overlay de pausa -->
 <div id="pause-overlay" class="overlay">
-    <div class="overlay-content">
-        <h2>Jogo Pausado</h2>
-        <button id="resume-btn">Retomar</button>
-    </div>
+  <div class="overlay-content">
+    <h2>Jogo Pausado</h2>
+    <button id="resume-btn">Retomar</button>
+  </div>
 </div>
 
 <!-- Modal de vitória -->
 <div id="win-modal" class="overlay">
-    <div class="overlay-content">
-        <h2>Parabéns! Você venceu!</h2>
-        <p>Tempo: <span id="final-time">00:00</span></p>
-        <button id="play-again">Jogar Novamente</button>
-    </div>
+  <div class="overlay-content">
+    <h2>Parabéns! Você venceu!</h2>
+    <p>Tempo: <span id="final-time">00:00</span></p>
+    <p>Pontos: <span id="final-score">0</span></p>
+    <button id="play-again">Jogar Novamente</button>
+  </div>
 </div>
 
 <footer class="site-footer">
-    <p>© 2025 Lunieh — Todos os direitos reservados</p>
-    <div class="footer-links">
-        <a href="/paginas/politicas.html">Política de Privacidade</a>
-        <a href="/paginas/termos.html">Termos de Uso</a>
-    </div>
+  <p>© 2025 Lunieh — Todos os direitos reservados</p>
+  <div class="footer-links">
+    <a href="/paginas/politicas.html">Política de Privacidade</a>
+    <a href="/paginas/termos.html">Termos de Uso</a>
+  </div>
 </footer>
 
-<script src="../js/global.js"></script>
+<script src="../js/sudoku.js"></script>
 </body>
 </html>
