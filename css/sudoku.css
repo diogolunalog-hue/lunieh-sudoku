@@ -1,353 +1,200 @@
-/* ============================================================
-   RESET + BASE
-============================================================ */
+/* Reset básico */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    font-family: "Inter", Arial, sans-serif;
-}
-
-/* Container principal */
+/* ===== Container principal ===== */
 .sudoku-container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px 12px 60px;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* ============================================================
-   TÍTULO + CONTROLES
-============================================================ */
-.sudoku-header {
-    text-align: center;
-    margin-bottom: 20px;
+/* ===== Grid do Sudoku ===== */
+.sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  background-color: #333;
+  border: 2px solid #333;
+  margin-bottom: 15px;
 }
 
-.sudoku-title {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 10px;
+.sudoku-grid .cell {
+  background-color: #f9f9f9;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: background 0.2s, color 0.2s;
+  user-select: none;
 }
 
-/* Controles de topo */
-.sudoku-controls {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
+.sudoku-grid .cell.selected {
+  background-color: #d1eaff;
 }
 
-.sudoku-controls select,
-.sudoku-controls button {
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: none;
-    font-size: 0.95rem;
-    background: #007bff;
-    color: white;
-    cursor: pointer;
+.sudoku-grid .cell.prefilled {
+  font-weight: bold;
+  color: #000;
 }
 
-.sudoku-controls select {
-    background: #eaeaea;
-    color: #222;
-    font-weight: 600;
+.sudoku-grid .cell.error {
+  color: #f00;
 }
 
-body.dark .sudoku-controls select {
-    background: #333;
-    color: #fff;
+/* Bordas mais grossas a cada 3 células */
+.sudoku-grid .cell:nth-child(3n) {
+  border-right: 2px solid #333;
 }
 
-.sudoku-controls button:hover {
-    background: #005fcc;
+.sudoku-grid .cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-grid .cell:nth-child(n+46):nth-child(-n+54) {
+  border-bottom: 2px solid #333;
 }
 
-/* Botão de pause */
-#pause {
-    font-size: 1.2rem;
-    padding: 8px 14px;
+/* ===== Barra de informações ===== */
+.info-bar {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #333;
 }
 
-/* ============================================================
-   INFO BAR (tempo, erros, dicas)
-============================================================ */
-.game-info {
-    text-align: center;
-    font-size: 1.05rem;
-    margin-bottom: 18px;
-    font-weight: 500;
-}
-
-/* ============================================================
-   GRID
-============================================================ */
-#sudoku-grid {
-    width: 100%;
-    max-width: 450px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    border: 3px solid #000;
-    background: white;
-}
-
-body.dark #sudoku-grid {
-    background: #141414;
-    border-color: #eee;
-}
-
-/* Cada célula */
-.cell {
-    position: relative;
-    border: 1px solid #c3c3c3;
-    width: 100%;
-    padding-top: 100%; /* quadrado perfeito */
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.1s ease;
-}
-
-.cell > span {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Célula fixa */
-.cell.given {
-    background: #e5e5e5;
-    color: #000;
-}
-
-body.dark .cell.given {
-    background: #333;
-    color: #fff;
-}
-
-/* Seleção */
-.cell.selected {
-    background: #cfe2ff !important;
-    outline: 2px solid #005fcc;
-}
-
-body.dark .cell.selected {
-    background: #113355 !important;
-    outline-color: #3399ff;
-}
-
-/* Linhas grossas (3x3) */
-.cell:nth-child(3n) {
-    border-right-width: 3px;
-}
-
-#sudoku-grid .cell:nth-child(n+19):nth-child(-n+27),
-#sudoku-grid .cell:nth-child(n+46):nth-child(-n+54) {
-    border-bottom-width: 3px;
-}
-
-/* ============================================================
-   NUMBER PAD
-============================================================ */
-#number-pad {
-    width: 100%;
-    max-width: 450px;
-    margin: 18px auto 12px;
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 6px;
-}
-
-#number-pad button {
-    padding: 12px 0;
-    font-size: 1.4rem;
-    border-radius: 10px;
-    border: 1px solid #bbb;
-    background: #efefef;
-    cursor: pointer;
-}
-
-#number-pad button:hover {
-    background: #ddd;
-}
-
-body.dark #number-pad button {
-    background: #222;
-    border-color: #444;
-    color: white;
-}
-
-#number-pad button:disabled {
-    opacity: 0.4;
-}
-
-/* ============================================================
-   ACTION BAR (notas, desfazer, dica)
-============================================================ */
+/* ===== Barra de ações ===== */
 .action-bar {
-    margin-top: 14px;
-    display: flex;
-    justify-content: center;
-    gap: 18px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.action-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #007bff;
-    color: white;
-    font-size: 1.4rem;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.15s ease;
+.circle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.action-btn:hover {
-    transform: scale(1.1);
-    background: #005fcc;
+.circle-btn:hover {
+  background-color: #0056b3;
 }
 
-body.dark .action-btn {
-    background: #0064d6;
+/* ===== Number Pad ===== */
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
 }
 
-/* ------------------------------------------------------------
-   Botões específicos
------------------------------------------------------------- */
-#notes-btn.active,
-#eliminate-btn.active {
-    background: #003d99 !important;
+.number-pad button {
+  width: 100%;
+  aspect-ratio: 1;
+  border: none;
+  background-color: #f0f0f0;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
 }
 
-/* ============================================================
-   MODAL DE PAUSE
-============================================================ */
-#pause-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
+.number-pad button:hover {
+  background-color: #ddd;
 }
 
-.pause-box {
-    background: white;
-    padding: 30px 20px;
-    width: 80%;
-    max-width: 300px;
-    border-radius: 14px;
-    text-align: center;
+/* ===== Overlay (pausa / vitória) ===== */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
 }
 
-body.dark .pause-box {
-    background: #222;
-    color: #eee;
+.overlay-content {
+  background: #fff;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 8px;
 }
 
-#resume-btn {
-    margin-top: 15px;
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: none;
-    background: #007bff;
-    color: white;
+.overlay button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.overlay button:hover {
+  background-color: #0056b3;
+}
+
+/* ===== Header ===== */
+.sudoku-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto 10px auto;
+  padding: 10px;
+}
+
+.sudoku-header .logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.sudoku-header button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 400px) {
+  .circle-btn {
+    width: 35px;
+    height: 35px;
     font-size: 1rem;
-    cursor: pointer;
-}
+  }
 
-/* ============================================================
-   WIN MODAL + RANKING
-============================================================ */
-#win-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 60;
-}
+  .number-pad button {
+    font-size: 0.9rem;
+  }
 
-.win-box {
-    background: #fff;
-    padding: 25px 20px;
-    border-radius: 14px;
-    width: 85%;
-    max-width: 330px;
-    text-align: center;
-}
-
-body.dark .win-box {
-    background: #222;
-    color: #eee;
-}
-
-.win-box h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.rank-title {
-    font-size: 1.1rem;
-    margin-top: 10px;
-}
-
-.rank-item {
-    font-size: 1.05rem;
-    padding: 4px 0;
-}
-
-.rank-me {
-    color: #007bff;
-    font-weight: 700;
-}
-
-#play-again {
-    margin-top: 15px;
-    padding: 12px 20px;
-    background: #007bff;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-
-/* ============================================================
-   RESPONSIVIDADE MOBILE — MUITO IMPORTANTE!
-============================================================ */
-@media (max-width: 450px) {
-
-    .sudoku-title {
-        font-size: 1.7rem;
-    }
-
-    #sudoku-grid {
-        max-width: 380px;
-    }
-
-    .cell {
-        font-size: 1.6rem;
-    }
-
-    #number-pad button {
-        font-size: 1.3rem;
-        padding: 10px 0;
-    }
-
-    .action-btn {
-        width: 48px;
-        height: 48px;
-        font-size: 1.25rem;
-    }
+  .sudoku-grid .cell {
+    font-size: 1rem;
+  }
 }
