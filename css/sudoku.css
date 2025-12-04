@@ -1,111 +1,5 @@
 /* ===========================
-   FONTE BASE E RESET
-=========================== */
-* {
-  box-sizing: border-box;
-  font-family: "Inter", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: #f2f2f2;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  padding: 15px;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-body.dark {
-  background: #121212;
-  color: #eee;
-}
-
-/* ===========================
-   CONTAINER GERAL
-=========================== */
-.container {
-  max-width: 480px; /* perfeito para mobile estilo app */
-  width: 100%;
-  text-align: center;
-}
-
-/* ===========================
-   LOGO E CABEÇALHO
-=========================== */
-.logo {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-.top-header {
-  margin-bottom: 15px;
-}
-
-.top-controls {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.top-controls button,
-.top-controls select {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: none;
-  font-size: 1rem;
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.top-controls button:hover {
-  background: #005fcc;
-}
-
-.top-controls select {
-  background: #e4e4e4;
-  color: #333;
-}
-
-body.dark .top-controls select {
-  background: #222;
-  color: #eee;
-}
-
-/* ===========================
-   THEME TOGGLE BUTTON
-=========================== */
-#theme-toggle {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: #007bff;
-  color: white;
-  font-size: 1.3rem;
-  cursor: pointer;
-  z-index: 30;
-}
-
-/* ===========================
-   INFO BAR
-=========================== */
-#game-info {
-  margin-bottom: 12px;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* ===========================
-   SUDOKU GRID
+   GRID DO SUDOKU
 =========================== */
 #sudoku-grid {
   width: 95%;
@@ -155,13 +49,14 @@ body.dark .cell.given {
 .cell:nth-child(3n) {
   border-right: 3px solid #000;
 }
+
 #sudoku-grid .cell:nth-child(n+19):nth-child(-n+27),
 #sudoku-grid .cell:nth-child(n+46):nth-child(-n+54) {
   border-bottom: 3px solid #000;
 }
 
 /* ===========================
-   NUMBER PAD
+   PAD DE NÚMEROS
 =========================== */
 #number-pad {
   margin: 15px auto;
@@ -192,7 +87,7 @@ body.dark #number-pad button {
 }
 
 /* ===========================
-   ACTION BAR — BOTÕES CIRCULARES
+   BARRA DE AÇÕES
 =========================== */
 #action-bar {
   margin-top: 12px;
@@ -224,16 +119,7 @@ body.dark #number-pad button {
 }
 
 /* ===========================
-   FOOTER
-=========================== */
-.footer {
-  margin-top: 25px;
-  font-size: 0.9rem;
-  opacity: 0.6;
-}
-
-/* ===========================
-   PAUSE MODAL
+   MODAL DE PAUSA
 =========================== */
 #pause-overlay {
   position: fixed;
@@ -271,7 +157,7 @@ body.dark .pause-box {
 }
 
 /* ===========================
-   WIN MODAL
+   MODAL DE VITÓRIA
 =========================== */
 #win-modal {
   position: fixed;
@@ -326,4 +212,3 @@ body.dark .win-box {
     font-size: 1.9rem;
   }
 }
-
