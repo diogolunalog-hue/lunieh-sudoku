@@ -1,39 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sobre - Lunieh Sudoku</title>
-  <link rel="stylesheet" href="css/global.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre • Lunieh Games</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/global.css">
+
+    <!-- JS global -->
+    <script src="../js/global.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Lunieh Sudoku</h1>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="sobre.html" class="active">Sobre</a>
-      <a href="contato.html">Contato</a>
-      <a href="politica.html">Política de Privacidade</a>
+
+<header>
+    <div class="container header-container">
+        <div class="logo">Lunieh</div>
+
+        <nav class="menu-desktop">
+            <a href="../index.html">Início</a>
+            <a href="../sudoku/index.html">Sudoku</a>
+            <a href="como-jogar.html">Como Jogar</a>
+            <a href="estrategias.html">Estratégias</a>
+            <a href="sobre.html" class="ativo">Sobre</a>
+            <a href="contato.html">Contato</a>
+        </nav>
+
+        <button class="menu-mobile-btn" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <nav id="menu-mobile" class="menu-mobile">
+        <a href="../index.html">Início</a>
+        <a href="../sudoku/index.html">Sudoku</a>
+        <a href="como-jogar.html">Como Jogar</a>
+        <a href="estrategias.html">Estratégias</a>
+        <a href="sobre.html" class="ativo">Sobre</a>
+        <a href="contato.html">Contato</a>
     </nav>
-  </header>
+</header>
 
-  <main class="container">
-    <h2>Sobre o Lunieh Sudoku</h2>
-    <p>
-      O Lunieh Sudoku é um projeto dedicado a trazer o clássico jogo de Sudoku para o mundo digital, 
-      proporcionando uma experiência agradável tanto para iniciantes quanto para jogadores avançados.
-    </p>
-    <p>
-      Nosso objetivo é oferecer uma plataforma simples, intuitiva e acessível, com várias funcionalidades, 
-      incluindo modo noturno, ranking, dicas, e muito mais.
-    </p>
-    <p>
-      Além disso, estamos trabalhando para incluir mais jogos de lógica para você se divertir ainda mais.
-    </p>
-  </main>
+<main>
+    <section class="pagina-conteudo">
+        <h1>Sobre o Lunieh</h1>
 
-  <footer>
-    <p>&copy; 2025 Lunieh Sudoku - Todos os direitos reservados.</p>
-  </footer>
+        <p>O <strong>Lunieh</strong> nasceu com um objetivo simples: criar jogos de lógica,
+           inteligência e raciocínio que fossem 100% gratuitos, acessíveis e agradáveis de jogar tanto no celular quanto no computador.</p>
+
+        <p>O primeiro jogo lançado é o <strong>Sudoku Lunieh</strong>, uma versão moderna,
+           rápida e totalmente otimizada para mobile — com design limpo, temas claro e escuro,
+           dificuldades variadas e funcionalidades como erros, pause e salvamento automático.</p>
+
+        <h2>Nossa missão</h2>
+        <p>Queremos transformar momentos livres em uma experiência divertida e que estimule o cérebro.
+           Jogos como Sudoku, Caça-Palavras e Cruzadinhas estarão sempre presentes aqui.</p>
+
+        <h2>Compromisso com qualidade</h2>
+        <p>Nosso objetivo é manter o site rápido, organizado e sempre atualizado com novos jogos,
+           melhorias constantes e uma experiência livre de distrações.</p>
+
+        <h2>Monetização transparente</h2>
+        <p>Para manter o projeto gratuito, utilizamos:</p>
+        <ul>
+            <li>Anúncios exibidos de forma discreta</li>
+            <li>Materiais premium como PDFs para impressão</li>
+            <li>Futuras assinaturas opcionais para jogadores avançados</li>
+        </ul>
+
+        <h2>Quem administra o projeto?</h2>
+        <p>O Lunieh é desenvolvido e mantido por mim (criador do site), com paixão por jogos
+           de raciocínio e design digital. Para dúvidas, sugestões ou parcerias, basta acessar a página de contato.</p>
+
+        <p><strong>Email profissional:</strong> contato@lunieh.com.br</p>
+
+        <br><br>
+        <p><em>Obrigado por jogar no Lunieh!</em></p>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-container">
+        <p>© 2025 Lunieh • Todos os direitos reservados</p>
+    </div>
+</footer>
+
 </body>
 </html>
